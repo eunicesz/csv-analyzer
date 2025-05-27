@@ -45,4 +45,5 @@ streamlit run main.py
 - 修复Python 3.13兼容性问题
 - 添加`allow_dangerous_code=True`参数以支持新版LangChain
 - 优化错误处理机制
-- 简化依赖管理 
+- 简化依赖管理
+- 添加缺失的依赖包：`tabulate`、`matplotlib`、`seaborn` 
