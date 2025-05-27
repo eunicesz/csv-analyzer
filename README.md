@@ -36,4 +36,13 @@ streamlit run main.py
 
 - 需要有效的OpenAI API密钥
 - 支持的图表类型：条形图、折线图、散点图
-- 文件大小限制：200MB 
+- 文件大小限制：200MB
+- ⚠️ **安全提醒**：此应用使用LangChain的pandas agent，可以执行Python代码来分析数据。请确保只上传可信的CSV文件。
+
+## 更新日志
+
+### v1.1 (2025-05-27)
+- 修复Python 3.13兼容性问题
+- 添加`allow_dangerous_code=True`参数以支持新版LangChain
+- 优化错误处理机制
+- 简化依赖管理 

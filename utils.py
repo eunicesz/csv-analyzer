@@ -36,23 +36,30 @@ PROMPT_TEMPLATE = """
 
 
 def dataframe_agent(openai_api_key, df, query):
-    model = ChatOpenAI(model="gpt-4-turbo",
-                       openai_api_key=openai_api_key,
-                       openai_api_base="https://api.aigc369.com/v1",
-                       temperature=0)
+    try:
+        model = ChatOpenAI(model="gpt-4-turbo",
+                           openai_api_key=openai_api_key,
+                           openai_api_base="https://api.aigc369.com/v1",
+                           temperature=0)
 
-    agent = create_pandas_dataframe_agent(
-        llm=model,
-        df=df,
-        verbose=True,
-        agent_executor_kwargs={"handle_parsing_errors": True}
-    )
+        agent = create_pandas_dataframe_agent(
+            llm=model,
+            df=df,
+            verbose=True,
+            allow_dangerous_code=True,
+            agent_executor_kwargs={"handle_parsing_errors": True}
+        )
 
-    prompt = PROMPT_TEMPLATE + query
+        prompt = PROMPT_TEMPLATE + query
 
-    response = agent.invoke({"input": prompt})
-    response_dict = json.loads(response["output"])
-    return response_dict
+        response = agent.invoke({"input": prompt})
+        response_dict = json.loads(response["output"])
+        return response_dict
+    
+    except json.JSONDecodeError:
+        return {"answer": "抱歉，AI返回的格式有误，请重新尝试。"}
+    except Exception as e:
+        return {"answer": f"处理过程中出现错误：{str(e)}，请检查您的API密钥或重新尝试。"}
 
 
 
